@@ -1,4 +1,4 @@
-package com.demo.application.product;
+package com.microservice.user.registration;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

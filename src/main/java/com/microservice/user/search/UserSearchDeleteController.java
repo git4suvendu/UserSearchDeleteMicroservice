@@ -3,7 +3,6 @@ package com.microservice.user.search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +85,20 @@ public class UserSearchDeleteController {
 			      return new ResponseEntity<>("User found.", HttpStatus.FOUND);
 	        }else{
 	        	  return new ResponseEntity<>("User Not found.", HttpStatus.NOT_FOUND);
+	        }
+	   }
+	   
+	   //Only used for internal microservice to microservice calling
+		// REST API Calling Method: GET
+		// http://localhost:8081/SearchUser/1
+	   
+	   @RequestMapping(value = "/SearchUser/{userid}", method = RequestMethod.GET)
+	   public boolean SearchUser(@PathVariable("userid") String UserId) { 
+		   
+		   if(userSearchDAO.findUserById(UserId)){
+			      return true;
+	        }else{
+	        	  return false;
 	        }
 	   }
 	   

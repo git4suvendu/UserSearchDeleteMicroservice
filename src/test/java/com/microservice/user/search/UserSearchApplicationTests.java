@@ -1,4 +1,4 @@
-package com.microservice.user.registration;
+package com.microservice.user.search;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

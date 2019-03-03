@@ -62,20 +62,39 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Finchley.SR2</version>
+				<version>Greenwich.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	<build>
+
+<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+    		<plugin>
+      			<groupId>com.spotify</groupId>
+      			<artifactId>docker-maven-plugin</artifactId>
+      			<!-- <version>VERSION GOES HERE</version> --> 
+      			<configuration>
+        			<imageName>user-search-delete</imageName>
+        			<baseImage>java:8-alpine</baseImage>
+        			<entryPoint>["java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=docker", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+        			<!-- copy the service's jar file from target into the root directory of the image --> 
+        				<resources>
+           					<resource>
+             					<targetPath>/</targetPath>
+             					<directory>${project.build.directory}</directory>
+             					<include>${project.build.finalName}.jar</include>
+           					</resource>
+        				</resources>
+      			</configuration>
+    		</plugin>
 		</plugins>
 	</build>
 
 </project>
+ 

@@ -11,9 +11,13 @@ spring:
 
 server:
   port: 8082
+  
+  
 eureka:
   instance:
     prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
     metadata-map:
       zone: zone1
     instance-id: ${spring.application.name}:${random.value}
@@ -22,6 +26,28 @@ eureka:
     register-with-eureka: true
     region: region1
     service-url:
-      zone1: http://discovery-server:8761/eureka/
+      zone1: http://eureka-server:8761/eureka/
     availability-zones:
       region1: zone1
+    healthcheck:
+      enabled: true
+      
+
+hystrix:
+  command:
+    user-registation-service:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    user-search-delete-service:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 600000
